@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Keystone / arch mark on dark slate -->
+    <path
+        android:fillColor="#3D9A8A"
+        android:pathData="M30,78 L30,48 Q30,30 54,30 Q78,30 78,48 L78,78 L68,78 L68,50 Q68,40 54,40 Q40,40 40,50 L40,78 Z"/>
+    <path
+        android:fillColor="#E8ECE9"
+        android:pathData="M48,78 L48,58 L60,58 L60,78 Z"/>
+</vector>

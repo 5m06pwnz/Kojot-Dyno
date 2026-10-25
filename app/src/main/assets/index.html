@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Kojot Dyno</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Kojot Dyno</div>
+    <div id="engine-pill" class="pill stopped">STOPPED</div>
+    <div id="pid-label" class="muted"></div>
+  </header>
+
+  <main>
+    <!-- Models -->
+    <section class="card collapsible open" data-panel="models">
+      <h2 class="card-h">Models <span class="chev">▾</span></h2>
+      <div class="card-b">
+        <div class="row">
+          <input id="model-dir" type="text" value="/storage/emulated/0/Download/Local_Models" />
+          <button id="btn-scan">Scan</button>
+        </div>
+        <select id="model-list" size="5"></select>
+        <div id="model-meta" class="muted small"></div>
+      </div>
+    </section>
+
+    <!-- Launch -->
+    <section class="card collapsible open" data-panel="launch">
+      <h2 class="card-h">Launch <span class="chev">▾</span></h2>
+      <div class="card-b grid2">
+        <label>ctx <input id="cfg-ctx" type="number" value="4096" min="512" step="256" /></label>
+        <label>threads <input id="cfg-threads" type="number" value="4" min="1" max="16" /></label>
+        <label>batch <input id="cfg-batch" type="number" value="512" /></label>
+        <label>ubatch <input id="cfg-ubatch" type="number" value="512" /></label>
+        <label>cache K
+          <select id="cfg-ck"><option>f16</option><option>q8_0</option><option>q4_0</option></select>
+        </label>
+        <label>cache V
+          <select id="cfg-cv"><option>f16</option><option>q8_0</option><option>q4_0</option></select>
+        </label>
+        <label class="chk"><input id="cfg-mmap" type="checkbox" checked /> mmap</label>
+        <label class="chk"><input id="cfg-mlock" type="checkbox" /> mlock</label>
+        <label>preflight
+          <select id="cfg-preflight"><option>ENFORCE</option><option>RECORD_ONLY</option></select>
+        </label>
+        <label>suite <input id="cfg-suite" type="text" value="adhoc" /></label>
+      </div>
+      <div class="card-b row">
+        <button id="btn-start" class="primary">Start Run</button>
+        <button id="btn-stop" class="danger" disabled>Stop</button>
+      </div>
+      <div id="preflight-note" class="muted small"></div>
+    </section>
+
+    <!-- Vitals -->
+    <section class="card collapsible open" data-panel="vitals">
+      <h2 class="card-h">Vitals <span class="chev">▾</span></h2>
+      <div class="card-b vitals-grid">
+        <div><span class="k">RSS</span> <span id="v-rss">—</span></div>
+        <div><span class="k">Anon</span> <span id="v-anon">—</span></div>
+        <div><span class="k">Avail</span> <span id="v-avail">—</span></div>
+        <div><span class="k">LMK Δ</span> <span id="v-headroom">—</span></div>
+        <div><span class="k">Batt</span> <span id="v-batt">—</span></div>
+        <div><span class="k">Thermal</span> <span id="v-thermal">—</span></div>
+      </div>
+      <canvas id="spark" width="360" height="48"></canvas>
+    </section>
+
+    <!-- Test runner -->
+    <section class="card collapsible open" data-panel="runner">
+      <h2 class="card-h">Gauntlet <span class="chev">▾</span></h2>
+      <div class="card-b">
+        <div class="row">
+          <select id="suite-pick">
+            <option value="smoke">smoke (1 prompt)</option>
+            <option value="schema_gauntlet">schema_gauntlet</option>
+            <option value="sampler_sweep">sampler_sweep</option>
+            <option value="context_ladder">context_ladder</option>
+            <option value="agent_tool_chaos">agent_tool_chaos</option>
+          </select>
+          <button id="btn-run-suite" class="primary" disabled>Run Suite</button>
+        </div>
+        <div class="row">
+          <label>temp <input id="s-temp" type="number" value="0.7" step="0.1" min="0" max="2" /></label>
+          <label>min_p <input id="s-minp" type="number" value="0.05" step="0.01" min="0" max="1" /></label>
+          <label>n_predict <input id="s-npred" type="number" value="256" min="16" /></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stream / log -->
+    <section class="card collapsible open" data-panel="log">
+      <h2 class="card-h">Stream <span class="chev">▾</span></h2>
+      <div class="card-b">
+        <pre id="stream-out" class="term"></pre>
+        <pre id="engine-log" class="term dim"></pre>
+      </div>
+    </section>
+
+    <!-- Failure summary -->
+    <section class="card collapsible" data-panel="stats">
+      <h2 class="card-h">Failures <span class="chev">▾</span></h2>
+      <div class="card-b">
+        <button id="btn-refresh-stats">Refresh</button>
+        <pre id="stats-out" class="term"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="dyno_app.js"></script>
+</body>
+</html>
